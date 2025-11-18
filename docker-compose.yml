@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: flaskwall_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      # String połączeniowy do bazy (adres 'db' wynika z nazwy serwisu powyżej)
+      - DATABASE_URL=postgresql://user:password@db:5432/flaskwall_db
+      - SECRET_KEY=bardzo_tajny_klucz_do_sesji
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
