@@ -33,7 +33,7 @@ jobs:
 
       - name: Security Audit - Dependencies
         run: |
-          safety scan --continue-on-error
+          safety check -r requirements.txt --continue-on-error
 
       - name: Security Audit - Code
         run: |
