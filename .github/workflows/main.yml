@@ -1,0 +1,35 @@
+name: CI/CD Pipeline (L5)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    name: Building and Testing
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Code (Checkout)
+        uses: actions/checkout@v3
+
+      - name: Set Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Lib installation
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Check code syntax
+        run: |
+          python -m py_compile run.py
+          echo "Success!"
+
+      - name: Building Docker Container
+        run: |
+          docker build . --file Dockerfile --tag my-app:latest
