@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  sast-and-pipeline:
+  sast-and-quality:
     name: SAST & Code Quality
     runs-on: ubuntu-latest
 
@@ -41,7 +41,7 @@ jobs:
 
   dast-and-build:
     name: DAST & Docker Build
-    needs: security-and-quality
+    needs: sast-and-quality
     runs-on: ubuntu-latest
     steps:
       - name: Download Code
